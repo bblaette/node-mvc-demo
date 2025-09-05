@@ -1,0 +1,27 @@
+
+<% if (typeof meta == "object" && meta.js) { %>
+<script>
+    $(document).ready(function() {
+        
+        var view_vars = viewVariables();
+        var form_feedback = "<div class=\"invalid-feedback d-block\">__feedback__</div>";
+        
+        var is_validation = view_vars.hasOwnProperty("validation") &&
+            view_vars.validation.hasOwnProperty("fields");
+        if (is_validation) {
+            var validation = view_vars.validation;
+            var form_sel = view_vars.hasOwnProperty("selector") ? 
+                view_vars.selector : "form";
+            var issues = validation.issues;
+                
+            $.each(validation.fields, function (i, field) {
+                var sel = "input[name=\""+ field +"\"]";
+                var issue = issues[i];
+                var feedback = form_feedback.replace("__feedback__", issue);
+                $(sel).after(feedback);
+            });
+            $(form_sel).removeClass("needs-validation"); // .addClass('was-validated');
+        }
+    });
+</script>
+<% } %>

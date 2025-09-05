@@ -1,0 +1,54 @@
+
+    <% 
+       var filters = [];
+       for (var c = 0; c < meta.columns.length; c++) { 
+           var filter_values = meta.columns[c].hasOwnProperty("filter_values") ? 
+               meta.columns[c].filter_values : false;
+           var tf = filter_values === false ? "false " : JSON.stringify(filter_values); 
+           
+           var is_filter = filter_values != false && filter_values.length > 0;
+           filters.push({
+               tag:    !is_filter ? "" : tf,
+               values: filter_values
+           });
+    %>
+               <!-- code>
+               <%- tf %>
+               </code -->
+    <% } %>
+
+<thead>
+    <tr>
+    <% for (var c = 0; c < meta.columns.length; c++) { %>
+        <% 
+            var sort_link = meta.columns[c].hasOwnProperty("sort_link") == false || meta.columns[c].sort_link.length == 0 ? null :
+                meta.columns[c].sort_link;
+            var sort_flag = meta.columns[c].hasOwnProperty("sort_flag") == false || meta.columns[c].sort_flag.length == 0 ? null :
+                meta.columns[c].sort_flag;
+                
+            var a_href = sort_link === null ? "" : 
+                sort_link.indexOf("http") === 0 ? sort_link :
+                site_base + sort_link;
+            var a_tag_open = sort_link === null ? "" : "<a href=\""+ sort_link +"\">";
+            var a_tag_close = sort_link === null ? "" : "</a>";
+            
+            var col_name = meta.columns[c].label.toLowerCase().replace(/[^\w]/g, "-");
+            var th_classes = "column-"+ c +" column-"+ col_name;
+            if (sort_link !== null) {
+                th_classes += " sort-"+ col_name;
+            }
+            if (sort_flag !== null) {
+                th_classes += " sort-flag-"+ sort_flag;
+            }       
+            
+            var filter = filters[c];
+        %>
+        <th class="<%- th_classes -%>">
+            <%- a_tag_open %><%= meta.columns[c].label %><%- a_tag_close %> <%# - filter.tag %>
+        </th>
+    <% } %>
+    <% if (meta.actions.length > 0) { %> 
+        <th>Actions</th>
+    <% } %>
+    </tr>
+</thead>

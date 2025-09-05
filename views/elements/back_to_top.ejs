@@ -1,0 +1,39 @@
+
+<style>
+.back-to-top {
+    display: none;
+    position: fixed;
+    bottom: 1.2em;
+    right: 1.5em;
+    z-index: 99;
+    font-size: 1.4em;
+    border: none;
+    outline: none;
+    background-color: #81a;
+    color: white;
+    cursor: pointer;
+    padding: .4em .6em;
+    border-radius: 4px;
+    opacity: 0.8;
+}
+</style>
+
+<button onclick="backToTop()" id="toTop" class="back-to-top" title="Go to top">Back to Top</button>
+
+<script>
+var to_top_offset = 680;
+window.onscroll = function() { scrollUp() };
+
+function scrollUp() {
+    if (document.body.scrollTop > to_top_offset || document.documentElement.scrollTop > to_top_offset) {
+        $(".back-to-top").css({display: "block"});
+    } else {
+        $(".back-to-top").css({display: "none"});
+    }
+}
+
+function backToTop() {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+}
+</script>

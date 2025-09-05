@@ -1,0 +1,63 @@
+
+<tbody>
+<% for (var i = 0; i < records.length; i++) { /* console.log(records[i]); */ %>
+    <tr class="row-<%= i %> record-<%= records[i].id %>">
+    <% for (var c = 0; c < meta.columns.length; c++) { %>
+        <% 
+            var key = meta.columns[c].key;
+            if (meta.columns[c].hasOwnProperty("init")) {
+                var val = meta.columns[c].init(records[i]);
+                if (typeof val != "undefined") {
+                    records[i][key] = val; // value was recalculated
+                }
+            }
+            
+            var href = meta.columns[c].hasOwnProperty("link") == false || meta.columns[c].link.length == 0 ? null :
+                typeof meta.columns[c].link == "function" ?
+                meta.columns[c].link(records[i]) :
+                meta.columns[c].link;
+            var a_href = href === null ? "" : 
+                href.indexOf("http") === 0 ? href :
+                site_base + href;
+            var a_tag_open = href === null ? "" : "<a href=\""+ a_href +"\">";
+            var a_tag_close = href === null ? "" : "</a>";
+                
+            var td_classes = "field-"+ c +" field-"+ meta.columns[c].label.toLowerCase().replace(/[^\w]/g, "-");
+        %>
+        <td class="<%- td_classes -%>">
+            <%- a_tag_open %><%= records[i][key] %><%- a_tag_close %>
+        </td>
+    <% } %>
+        <td>
+        <% for (var a = 0; a < meta.actions.length; a++) { %>
+            <% 
+                if (meta.actions[a].hasOwnProperty("init")) {
+                    meta.actions[a].init(records[i]);
+                }
+                var href = typeof meta.actions[a].link == "function" ?
+                    meta.actions[a].link(records[i]) :
+                    meta.actions[a].link;
+                var a_num = "action-"+ a;
+                var a_class = "action-"+ meta.actions[a].label.toLowerCase() +" "+ a_num;
+                var comma = a < meta.actions.length - 1 ? "," : "";
+                var span_classes = meta.actions[a].hasOwnProperty("classes") ?
+                    meta.actions[a].classes : "";
+                var span_data = "";
+                for (var ky in meta.actions[a]) {
+                    var type = typeof meta.actions[a][ky];
+                    if (type == "string" || type == "number") {
+                        span_data += " data-"+ ky.replace("_", "-").toLowerCase() +'="'+ meta.actions[a][ky] +'"';
+                    }
+                }
+            %>
+            <a href="<%= site_base %><%= href %>" class="<%= a_class -%>">
+            
+                <span class="<%- span_classes -%>" <%- span_data -%>>
+                <%= meta.actions[a].label -%>
+<%_ _%>         </span>
+<%_ _%>     </a><%= comma -%>
+        <% } %>
+        </td>
+    </tr>
+<% } %>
+</tbody>

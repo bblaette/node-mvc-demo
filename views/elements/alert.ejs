@@ -1,0 +1,9 @@
+
+<% if (typeof meta == "object" && meta.message) { %>
+<%     var type = meta.message_type.replace("error", "danger");
+%>
+<div class="alert alert-<%= type %> alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    <%- meta.message %>
+</div>
+<% } %>

@@ -1,0 +1,16 @@
+
+<% if (typeof meta == "object" && meta.js) { %>
+<script>
+    function viewVariables () {
+        return {
+        <% for (var i = 0; i < meta.js.length; i++) { %>
+            <%= meta.js[i].variable %>: <% -%>
+            <%_ _%><%- meta.js[i].type && (meta.js[i].type == "number" || meta.js[i].type == "json") ? "" : "'" %><%_ -%>
+            <%_ _%><%- meta.js[i].value %><%_ -%>
+            <%_ _%><%- meta.js[i].type && (meta.js[i].type == "number" || meta.js[i].type == "json") ? "" : "'" %><%_ -%>
+            <%_ _%><%= i < meta.js.length - 1 ? "," : "" %> 
+        <% } %>
+        };
+    }
+</script>
+<% } %>
