@@ -1,0 +1,157 @@
+<!DOCTYPE html><%# http://www.ejs.co/ %>
+<html lang="en">
+<head>
+    <%- include ("../elements/head") %>
+</head>
+<body class="container favorites edit">
+
+<header>
+    <%- include ("../elements/header") %>
+</header>
+
+<main>
+    <div class="">
+        
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <!-- li class="breadcrumb-item"><a href="<%= site_base %>/">Home</a></li --!>
+                <!-- li class="breadcrumb-item"><a href="<%= site_base %><%= meta.link_back %>">Back</a></li -->
+                <li class="breadcrumb-item"><a href="<%= site_base %>/favorites<% if (impersonating_user_id) { %>?user_id=<%= impersonating_user_id %><% } %>"><% if (impersonating_user_id) { %>User's Favorites<% } else { %>Favorites<% } %></a></li>
+                <li class="breadcrumb-item active" aria-current="page">Rate City</li>
+            </ol>
+        </nav>
+        
+        <%- include ("../elements/alert") %>
+
+        <h2><%= title %></h2>
+        <h3><small class="text-muted"><%= city.city %>, <%= city.country %></small></h3>
+        
+        <% if (city.image_path) { %>
+        <div class="city-image mb-4">
+            <img src="<%= city_img_path %>/<%= city.image_path %>" 
+                 alt="<%= city.city %>, <%= city.country %>" 
+                 class="img-fluid rounded">
+        </div>
+        <% } %>
+        
+        <form method="post" action="<%= site_base %>/favorites/edit/<%= city.id %><% if (impersonating_user_id) { %>?user_id=<%= impersonating_user_id %><% } %>">
+            
+            <input type="hidden" name="link_back" value="<%= meta.link_back %>">
+            
+            <div class="row">
+                <div class="col-md-7">
+                    
+                    <!-- Story Field -->
+                    <div class="form-group mb-4">
+                        <label for="story" class="form-label"><strong>Your Story *</strong></label>
+                        <textarea class="form-control form-story<% if (meta.validation_fields && meta.validation_fields.includes('story')) { %> is-invalid<% } %>" 
+                                  id="story" name="story" rows="4" 
+                                  placeholder="Tell us about your experience in this city..."><%= favorite && favorite.story ? favorite.story : '' %></textarea>
+                        <% if (meta.validation_fields && meta.validation_fields.includes('story')) { %>
+                        <div class="invalid-feedback">
+                            <% for (var i = 0; i < meta.validation_issues.length; i++) { %>
+                                <% if (meta.validation_fields[i] === 'story') { %>
+                                    <%= meta.validation_issues[i] %>
+                                <% } %>
+                            <% } %>
+                        </div>
+                        <% } %>
+                        <small class="form-text text-muted">Required</small>
+                    </div>
+                    
+                    <!-- Visited Date -->
+                    <div class="form-group mb-5">
+                        <label for="visited" class="form-label"><strong>When did you visit?</strong></label>
+                        <input type="date" 
+                               class="form-control<% if (meta.validation_fields && meta.validation_fields.includes('visited')) { %> is-invalid<% } %>" 
+                               id="visited" name="visited" 
+                               value="<%= favorite && favorite.visited ? favorite.visited : '' %>">
+                        <% if (meta.validation_fields && meta.validation_fields.includes('visited')) { %>
+                        <div class="invalid-feedback">
+                            <% for (var i = 0; i < meta.validation_issues.length; i++) { %>
+                                <% if (meta.validation_fields[i] === 'visited') { %>
+                                    <%= meta.validation_issues[i] %>
+                                <% } %>
+                            <% } %>
+                        </div>
+                        <% } %>
+                        <small class="form-text text-muted">Optional</small>
+                    </div>
+                    
+                </div>
+                
+                <div class="col-md-4 star-rating-col">
+                    <label class="form-label"><strong>Your Rating *</strong></label>
+                    <!-- <p><small class="text-muted">All ratings are required (1-5 stars)</small></p> -->
+                    
+                    <!-- Star Ratings -->
+                    <% 
+                    let rating_categories = [
+                        {key: 'stars_scenery', label: 'Scenery'},
+                        {key: 'stars_food', label: 'Food'},
+                        {key: 'stars_culture', label: 'Culture'},
+                        {key: 'stars_walkable', label: 'Walkability'},
+                        {key: 'stars_vibe', label: 'Vibe'}
+                    ];
+                    %>
+                    
+                    <% for (var c = 0; c < rating_categories.length; c++) { %>
+                    <div class="form-group mb-2">
+                        <label class="form-label star-label"><strong><%= rating_categories[c].label %>  </strong></label>
+                        <div class="star-rating-input<% if (meta.validation_fields && meta.validation_fields.includes(rating_categories[c].key)) { %> has-error<% } %>">
+                            <% for (var s = 1; s <= 5; s++) { %>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" type="radio" 
+                                       name="<%= rating_categories[c].key %>" 
+                                       id="<%= rating_categories[c].key %>_<%= s %>" 
+                                       value="<%= s %>"
+                                       <% if (favorite && favorite[rating_categories[c].key] == s) { %>checked<% } %>>
+                                <label class="form-check-label" for="<%= rating_categories[c].key %>_<%= s %>">
+                                    <% if (s < 5) { %>
+                                        <%= s %>
+                                    <% } else { %>
+                                        <%= s %> ★
+                                    <% } %>
+                                </label>
+                            </div>
+                            <% } %>
+                        </div>
+                        <% if (meta.validation_fields && meta.validation_fields.includes(rating_categories[c].key)) { %>
+                        <div class="text-danger small">
+                            <% for (var i = 0; i < meta.validation_issues.length; i++) { %>
+                                <% if (meta.validation_fields[i] === rating_categories[c].key) { %>
+                                    <%= meta.validation_issues[i] %>
+                                <% } %>
+                            <% } %>
+                        </div>
+                        <% } %>
+                    </div>
+                    <% } %>
+                    <small class="form-text text-muted">Required</small>
+                </div>
+            </div>
+            
+            <div class="form-actions mt-4">
+                <button type="submit" class="btn btn-primary">
+                    <% if (favorite && favorite.id) { %>
+                        Save
+                    <% } else { %>
+                        Save
+                    <% } %>
+                </button>
+                <a href="<%= site_base %><%= meta.link_back %>" class="btn btn-secondary">
+                    Cancel
+                </a>
+            </div>
+            
+        </form>
+        
+    </div> <br />
+</main>
+
+<footer>
+    <%- include ("../elements/footer") %>
+</footer>
+
+</body>
+</html>

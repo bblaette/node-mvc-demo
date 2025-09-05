@@ -1,0 +1,133 @@
+<!DOCTYPE html><%# http://www.ejs.co/ %>
+<html lang="en">
+<head>
+    <%- include ("../elements/head") %>
+    <%- include ("../elements/view_variables") %>
+</head>
+<body class="container favorites view">
+
+<header>
+    <%- include ("../elements/header") %>
+</header>
+
+<main>
+    <div class="">
+        
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <!-- li class="breadcrumb-item"><a href="<%= site_base %>/">Home</a></li -->
+                <li class="breadcrumb-item"><a href="<%= site_base %>/favorites<% if (impersonating_user_id) { %>?user_id=<%= impersonating_user_id %><% } %>"><% if (impersonating_user_id) { %>User's Favorites<% } else { %>Favorites<% } %></a></li>
+                <li class="breadcrumb-item active" aria-current="page">Details</li>
+            </ol>
+        </nav>
+
+        <h2><%= title %></h2>
+        <h3><small class="text-muted">
+            <%= favorite["city"] %>, <%= favorite["country"] %> 
+            <% if (favorite["visited"]) { %>
+                - visited <%= favorite["visited"] %>
+            <% } %>
+        </small></h3> <br />
+        
+        <div class="row">
+            <div class="col-md-8">
+                <% if (favorite["image_path"]) { %>
+                <div class="city-image mb-4">
+                    <img src="<%= city_img_path %>/<%= favorite['image_path'] %>" 
+                         alt="<%= favorite['city'] %>, <%= favorite['country'] %>" 
+                         class="img-fluid rounded">
+                </div>
+                <% } %>
+                
+                <% if (favorite["story"]) { %>
+                <div class="city-story mb-4">
+                    <h4>My Story</h4>
+                    <p><%= favorite["story"] %></p>
+                </div>
+                <% } %>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="city-ratings">
+                    <h4>My Rating</h4>
+                    <div class="rating-item mb-2">
+                        <span class="star-label">Overall:</span> 
+                        <span class="star-display">
+                        <% for (var s = 1; s <= 5; s++) { %>
+                            <% if (s <= favorite["avg_rating"]) { %>★<% } else { %>☆<% } %>
+                        <% } %>
+                        </span>
+                        <!-- (<%= favorite["avg_rating"] %>/5) -->
+                    </div>
+                    
+                    <div class="rating-item mb-2">
+                        <span class="star-label">Scenery:</span> 
+                        <span class="star-display">
+                        <% for (var s = 1; s <= 5; s++) { %>
+                            <% if (s <= favorite["stars_scenery"]) { %>★<% } else { %>☆<% } %>
+                        <% } %>
+                        </span>
+                        <!-- (<%= favorite["stars_scenery"] %>/5) -->
+                    </div>
+                    
+                    <div class="rating-item mb-2">
+                        <span class="star-label">Food:</span> 
+                        <span class="star-display">
+                        <% for (var s = 1; s <= 5; s++) { %>
+                            <% if (s <= favorite["stars_food"]) { %>★<% } else { %>☆<% } %>
+                        <% } %>
+                        </span>
+                        <!-- (<%= favorite["stars_food"] %>/5) -->
+                    </div>
+                    
+                    <div class="rating-item mb-2">
+                        <span class="star-label">Culture:</span> 
+                        <span class="star-display">
+                        <% for (var s = 1; s <= 5; s++) { %>
+                            <% if (s <= favorite["stars_culture"]) { %>★<% } else { %>☆<% } %>
+                        <% } %>
+                        </span>
+                        <!-- (<%= favorite["stars_culture"] %>/5) -->
+                    </div>
+                    
+                    <div class="rating-item mb-2">
+                        <span class="star-label">Walkability:</span> 
+                        <span class="star-display">
+                        <% for (var s = 1; s <= 5; s++) { %>
+                            <% if (s <= favorite["stars_walkable"]) { %>★<% } else { %>☆<% } %>
+                        <% } %>
+                        </span>
+                        <!-- (<%= favorite["stars_walkable"] %>/5) -->
+                    </div>
+                    
+                    <div class="rating-item mb-2">
+                        <span class="star-label">Vibe:</span> 
+                        <span class="star-display">
+                        <% for (var s = 1; s <= 5; s++) { %>
+                            <% if (s <= favorite["stars_vibe"]) { %>★<% } else { %>☆<% } %>
+                        <% } %>
+                        </span>
+                        <!-- (<%= favorite["stars_vibe"] %>/5) -->
+                    </div>
+                </div>
+                
+                <div class="city-actions mt-4">
+                    <a href="<%= site_base %>/favorites/edit/<%= favorite['city_id'] %><% if (impersonating_user_id) { %>?user_id=<%= impersonating_user_id %><% } %>" class="btn btn-primary btn-sm">
+                        Edit Rating
+                    </a>
+                    <a href="<%= site_base %>/cities/view/<%= favorite['city_id'] %><% if (impersonating_user_id) { %>?user_id=<%= impersonating_user_id %><% } %>" class="btn btn-primary btn-sm">
+                        View City
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+    </div> <br />
+</main>
+
+<footer>
+    <%- include ("../elements/footer") %>
+</footer>
+
+</body>
+</html>

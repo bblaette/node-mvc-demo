@@ -1,0 +1,259 @@
+<!DOCTYPE html><%# http://www.ejs.co/ %>
+<html lang="en">
+<head>
+    <%- include ("../elements/head") %>
+</head>
+<body class="container favorites index">
+
+<header>
+    <%- include ("../elements/header") %>
+</header>
+
+<main>
+    <div class="">
+        
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <!-- li class="breadcrumb-item"><a href="<%= site_base %>/">Home</a></li -->
+                <li class="breadcrumb-item active" aria-current="page"><% if (impersonating_user_id) { %>User's Favorites<% } else { %>Favorites<% } %></li>
+            </ol>
+        </nav>
+        
+        <%- include ("../elements/alert") %>
+
+        <h2><%= title %></h2>
+       
+        <% if (meta.page_last && meta.page_last > 1) { %>
+        <nav class="navbar d-none d-sm-block navbar-expand-sm">
+            <%- include ("../elements/pagination") %>
+        </nav>
+        <% } %>
+        
+        <% if (favorites && favorites.length > 0) { %>
+            <% if (meta.view_format === "cards") { %>
+            <!-- Card format for users and admin impersonation -->
+            <div class="row">
+            <% for (var i = 0; i < favorites.length; i++) { %>
+                <div class="col-md-6 col-lg-4 mb-4">
+                    <div class="card">
+                        <% if (favorites[i]["image_path"]) { %>
+                        <a href="<%= site_base %>/favorites/view/<%= favorites[i]['city_id'] %>">
+                            <img src="<%= city_img_path %>/<%= favorites[i]['image_path'] %>" 
+                                 class="card-img-top" alt="<%= favorites[i]['city'] %>">
+                        </a>
+                        <% } %>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a href="<%= site_base %>/favorites/view/<%= favorites[i]['city_id'] %>">
+                                    <%= favorites[i]["city"] %>
+                                </a>
+                            </h5>
+                            
+                            <% if (favorites[i]["visited"]) { %>
+                            <p class="card-text text-muted mb-2">
+                                <small>Visited: <%= favorites[i]["visited"] %></small>
+                            </p>
+                            <% } %>
+                            
+                            <div class="rating-breakdown mb-3">
+                                <small>
+                                    <% if (favorites[i]["stars_scenery"]) { %>
+                                    <span class="star-label">Scenery:</span> 
+                                    <span class="star-display">
+                                    <% for (var s = 1; s <= 5; s++) { %>
+                                        <% if (s <= favorites[i]["stars_scenery"]) { %>★<% } else { %>☆<% } %>
+                                    <% } %>
+                                    </span>
+                                    <!-- (<%= favorites[i]["stars_scenery"] %>) --><br>
+                                    <% } %>
+                                    
+                                    <% if (favorites[i]["stars_food"]) { %>
+                                    <span class="star-label">Food:</span> 
+                                    <span class="star-display">
+                                    <% for (var s = 1; s <= 5; s++) { %>
+                                        <% if (s <= favorites[i]["stars_food"]) { %>★<% } else { %>☆<% } %>
+                                    <% } %>
+                                    </span>
+                                    <!-- (<%= favorites[i]["stars_food"] %>) --><br>
+                                    <% } %>
+                                    
+                                    <% if (favorites[i]["stars_culture"]) { %>
+                                    <span class="star-label">Culture:</span> 
+                                    <span class="star-display">
+                                    <% for (var s = 1; s <= 5; s++) { %>
+                                        <% if (s <= favorites[i]["stars_culture"]) { %>★<% } else { %>☆<% } %>
+                                    <% } %>
+                                    </span>
+                                    <!-- (<%= favorites[i]["stars_culture"] %>) --><br>
+                                    <% } %>
+                                    
+                                    <% if (favorites[i]["stars_walkable"]) { %>
+                                    <span class="star-label">Walkability:</span> 
+                                    <span class="star-display">
+                                    <% for (var s = 1; s <= 5; s++) { %>
+                                        <% if (s <= favorites[i]["stars_walkable"]) { %>★<% } else { %>☆<% } %>
+                                    <% } %>
+                                    </span>
+                                    <!-- (<%= favorites[i]["stars_walkable"] %>) --><br>
+                                    <% } %>
+                                    
+                                    <% if (favorites[i]["stars_vibe"]) { %>
+                                    <span class="star-label">Vibe:</span> 
+                                    <span class="star-display">
+                                    <% for (var s = 1; s <= 5; s++) { %>
+                                        <% if (s <= favorites[i]["stars_vibe"]) { %>★<% } else { %>☆<% } %>
+                                    <% } %>
+                                    </span>
+                                    <!-- (<%= favorites[i]["stars_vibe"] %>) -->
+                                    <% } %>
+                                </small>
+                            </div>
+                            
+                            <div class="card-actions">
+                                <a href="<%= site_base %>/favorites/view/<%= favorites[i]['city_id'] %><% if (impersonating_user_id) { %>?user_id=<%= impersonating_user_id %><% } %>" class="btn btn-primary btn-sm">
+                                    View
+                                </a>
+                                <a href="<%= site_base %>/favorites/edit/<%= favorites[i]['city_id'] %><% if (impersonating_user_id) { %>?user_id=<%= impersonating_user_id %><% } %>" class="btn btn-outline-secondary btn-sm">
+                                    Edit
+                                </a>
+                                <a href="<%= site_base %>/favorites/delete/<%= favorites[i]['id'] %>" 
+                                   class="btn btn-outline-danger btn-sm"
+                                   onclick="return confirm('Are you sure you want to delete your rating for <%= favorites[i]['city'] %>?')">
+                                    Delete
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            <% } %>
+            
+            <!-- Add City card - always last for user view or admin impersonation -->
+            <% if (meta.view_format === "cards" && user && (user.role !== "admin" || impersonating_user_id)) { %>
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card card-add h-100 d-flex align-items-center justify-content-center">
+                    <div class="card-top">
+                        <div class="card-plus text-muted">
+                            <a href="<%= site_base %>/cities<% if (impersonating_user_id) { %>?user_id=<%= impersonating_user_id %><% } %>">+</a>
+                        </div>
+                        <h5 class="card-title text-muted">
+                            <a href="<%= site_base %>/cities<% if (impersonating_user_id) { %>?user_id=<%= impersonating_user_id %><% } %>">Add City</a>
+                        </h5>
+                    </div>
+                    <div class="card-body text-center">
+                        <a href="<%= site_base %>/cities<% if (impersonating_user_id) { %>?user_id=<%= impersonating_user_id %><% } %>" class="btn btn-outline-primary">
+                            Browse Cities
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <% } %>
+
+            </div>
+            <% } else { %>
+            <!-- List format for admin default view -->
+            <table class="table table-striped table-striped table-sm">
+                <thead>
+                    <tr>
+                    <% for (var c = 0; c < meta.columns.length; c++) { %>
+                        <th><%= meta.columns[c].label %></th>
+                    <% } %>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <% for (var i = 0; i < favorites.length; i++) { %>
+                    <tr>
+                    <% for (var c = 0; c < meta.columns.length; c++) { %>
+                        <td>
+                        <% if (meta.columns[c].key.indexOf('stars_') === 0 || meta.columns[c].key === 'avg_rating') { %>
+                            <span class="star-rating">
+                            <% for (var s = 1; s <= 5; s++) { %>
+                                <% if (s <= favorites[i][meta.columns[c].key]) { %>
+                                    ★
+                                <% } else if (s - 0.5 <= favorites[i][meta.columns[c].key]) { %>
+                                    ☆
+                                <% } else { %>
+                                    ☆
+                                <% } %>
+                            <% } %>
+                            (<%= favorites[i][meta.columns[c].key] %>)
+                            </span>
+
+                        <% } else if (meta.columns[c].key === 'city') { %>
+                            <a href="<%= site_base %>/cities/view/<%= favorites[i]['city_id'] %>">
+                                <%= favorites[i][meta.columns[c].key] %>
+                            </a>
+
+                        <% } else { %>
+                            <%= favorites[i][meta.columns[c].key] %>
+                        <% } %>
+                        </td>
+                    <% } %>
+                        <td>
+                        <% for (var a = 0; a < meta.actions.length; a++) { %>
+                            <% if (meta.actions[a].label === "Delete") { %>
+                            <a href="<%= site_base %><%= meta.actions[a].link(favorites[i]) %>"
+                               onclick="return confirm('Are you sure you want to delete this rating for <%= favorites[i]['city'] %>?')">
+                                <%= meta.actions[a].label %>
+                            </a><% _%>
+                            <% } else { %>
+                            <a href="<%= site_base %><%= meta.actions[a].link(favorites[i]) %>">
+                                <%= meta.actions[a].label %>
+                            </a><% _%>
+                            <% } %>
+                            <!-- <% if (a < meta.actions.length - 1) { %>, <% } %> -->
+                        <% } %>
+                        </td>
+                    </tr>
+                <% } %>
+                </tbody>
+            </table>
+            <% } %>
+        <% } else { %>
+        <div class="alert alert-info">
+            <h4>No cities yet!</h4>
+            <p>You haven't rated any favorite cities yet. <a href="<%= site_base %>/cities">Browse cities</a> to start adding your favorites!</p>
+        </div>
+        <% } %>
+
+        <nav class="navbar navbar-expand-sm">
+            <%- include ("../elements/pagination_results") %>
+            
+            <% if (meta.page_last && meta.page_last > 1) { %>
+            <%- include ("../elements/pagination") %>
+            <% } %>
+            
+            <div class="w-100"><!--spacer--></div>
+        </nav>
+        
+        <% if (user && user.role === "admin" && meta.view_format === "list") { %>
+        <div class="admin-actions mt-4 pt-3 border-top">
+            <h5>Admin Actions</h5>
+            <div class="btn-group" role="group">
+                <a href="<%= site_base %>/admin/demo-reset/prefill" 
+                   class="btn btn-warning btn-sm"
+                   onclick="return confirm('This will clear ALL favorites and generate new demo data. Are you sure?')">
+                    Reset Demo Data
+                </a>
+                <a href="<%= site_base %>/admin/demo-reset/clear" 
+                   class="btn btn-outline-danger btn-sm"
+                   onclick="return confirm('This will clear ALL favorites permanently. Are you sure?')">
+                    Clear All Favorites
+                </a>
+            </div>
+            <small class="form-text text-muted d-block mt-2">
+                <strong>Reset Demo Data:</strong> Clears all favorites and generates new random demo ratings.<br>
+                <strong>Clear All Favorites:</strong> Removes all favorites without adding new data.
+            </small>
+        </div>
+        <% } %>
+
+    </div>
+</main>
+
+<footer>
+    <%- include ("../elements/footer") %>
+</footer>
+
+</body>
+</html>
