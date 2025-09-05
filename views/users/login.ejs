@@ -1,0 +1,46 @@
+<!DOCTYPE html><%# http://www.ejs.co/ %>
+<html lang="en">
+<head>
+    <%- include ("../elements/head") %>
+    <%- include ("../elements/view_variables") %>
+</head>
+<body class="container login index">
+
+<header>
+    <%- include ("../elements/header") %>
+</header>
+
+<main>
+    <%- include ("../elements/alert") %>
+    
+    <div class="row row-login justify-content-center">
+        <div class="col-md-6 col-lg-6">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title mb-0"><%= title %></h2>
+                </div>
+                <div class="card-body">
+                    <form class="form needs-validation" action="<%= site_base %>/login" method="POST">
+                        <div class="form-group mb-4">
+                            <input class="form-control" id="email" name="email" placeholder="Email" required>
+                        </div>
+                        <div class="form-group mb-4">
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Password" required>
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary btn-block w-100">Login</button>
+                        </div>
+                        <%- include ("../elements/form_validation") %>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<footer>
+    <%- include ("../elements/footer") %>
+</footer>
+
+</body>
+</html>
