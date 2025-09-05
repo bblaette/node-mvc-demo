@@ -1,0 +1,107 @@
+<!DOCTYPE html><%# http://www.ejs.co/ %>
+<html lang="en">
+<head>
+    <%- include ("../elements/head") %>
+</head>
+<body class="container cities index">
+
+<header>
+    <%- include ("../elements/header") %>
+</header>
+
+<main>
+    <div class="">
+        
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <!-- li class="breadcrumb-item"><a href="<%= site_base %>/">Home</a></li -->
+                <li class="breadcrumb-item active" aria-current="page">Cities</li>
+            </ol>
+        </nav>
+        
+        <%- include ("../elements/alert") %>
+
+        <h2><%= title %></h2>
+       
+        <% if (meta.page_last && meta.page_last > 1) { %>
+        <nav class="navbar d-none d-sm-block navbar-expand-sm">
+            <%- include ("../elements/pagination") %>
+        </nav>
+        <% } %>
+        
+        <% if (cities && cities.length > 0) { %>
+        <div class="row">
+        <% for (var i = 0; i < cities.length; i++) { %>
+            <div class="col-md-6 col-lg-4 mb-4">
+                <div class="card">
+                    <% if (cities[i]["image_path"]) { %>
+                    <a href="<%= site_base %>/cities/view/<%= cities[i]["id"] %>">
+                        <img src="<%= city_img_path %>/<%= cities[i]['image_path'] %>" 
+                             class="card-img-top" alt="<%= cities[i]['city'] %>">
+                    </a>
+                    <% } %>
+                    <div class="card-body">
+                        <h5 class="card-title"><%= cities[i]["city"] %>, <%= cities[i]["country"] %></h5>
+                        
+                        <div class="rating-summary mb-2">
+                            <strong>Community Rating:</strong>
+                            <span class="star-display">
+                            <% for (var s = 1; s <= 5; s++) { %>
+                                <% if (s <= cities[i]["overall_avg"]) { %>★<% } else { %>☆<% } %>
+                            <% } %>
+                            </span>
+                            <small class="text-muted">(<%= cities[i]["overall_avg"] %>/5)</small>
+                        </div>
+                        
+                        <div class="rating-breakdown">
+                            <small class="text-muted">
+                                Scenery: <%= cities[i]["ave_scenery"] %> | 
+                                Food: <%= cities[i]["ave_food"] %> | 
+                                Culture: <%= cities[i]["ave_culture"] %> | 
+                                Walk: <%= cities[i]["ave_walkable"] %> | 
+                                Vibe: <%= cities[i]["ave_vibe"] %>
+                            </small>
+                        </div>
+                        
+                        <div class="card-actions mt-3">
+                            <a href="<%= site_base %>/cities/view/<%= cities[i]["id"] %>" class="btn btn-primary btn-sm">
+                                View Details
+                            </a>
+                            <% if (user && user.id && (user.role !== "admin" || impersonating_user_id)) { %>
+                            <!-- a href="<%= site_base %>/favorites/edit/<%= cities[i]["id"] %><% if (impersonating_user_id) { %>?user_id=<%= impersonating_user_id %><% } %>" class="btn btn-outline-secondary btn-sm" -->
+                            <a href="<%= site_base %>/favorites/view/<%= cities[i]["id"] %><% if (impersonating_user_id) { %>?user_id=<%= impersonating_user_id %><% } %>" class="btn btn-outline-secondary btn-sm">
+                                My Rating
+                            </a>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+        </div>
+        <% } else { %>
+        <div class="alert alert-info">
+            <h4>No cities yet!</h4>
+            <p>No cities have been added to the database yet. Check back later to discover amazing places!</p>
+        </div>
+        <% } %>
+
+        <nav class="navbar navbar-expand-sm">
+            <%- include ("../elements/pagination_results") %>
+            
+            <% if (meta.page_last && meta.page_last > 1) { %>
+            <%- include ("../elements/pagination") %>
+            <% } %>
+            
+            <div class="w-100"><!--spacer--></div>
+        </nav>
+
+    </div>
+</main>
+
+<footer>
+    <%- include ("../elements/footer") %>
+</footer>
+
+</body>
+</html>

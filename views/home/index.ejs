@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include ("../elements/head") %>
+    <%- include ("../elements/view_variables") %>
+</head>
+<body class="container home index">
+
+<header>
+    <%- include ("../elements/header") %>
+</header>
+
+<main>
+    <%- include ("../elements/alert") %>
+    
+    <div class="hero-section mb-5 mt-3">
+        <div class="card bg-light">
+            <h1 class="display-5"><%= title %></h1>
+            <p class="lead mt-3">
+                Discover amazing cities rated by our community. 
+            </p>
+            <p class="lead mb-0">
+                This demo site showcases a lightweight MVC architecture built with Node.js.
+            </p>
+        </div>
+    </div>
+    
+    <!-- General Cities Section -->
+    <% if (showcase.general && showcase.general.length > 0) { %>
+    <section class="city-showcase mb-4">
+        <h2><% if (meta.has_featured || meta.has_trending) { %>Discover Cities<% } else { %>Featured Cities<% } %></h2>
+        <div class="row">
+        <% for (var i = 0; i < showcase.general.length; i++) { %>
+            <div class="col-md-6 col-lg-4 mb-4 mt-2">
+                <div class="card">
+                    <% if (showcase.general[i]["image_path"]) { %>
+                    <a href="<%= site_base %>/cities/view/<%= showcase.general[i]["id"] %>">
+                        <img src="<%= city_img_path %>/<%= showcase.general[i]['image_path'] %>" 
+                             class="card-img-top" alt="<%= showcase.general[i]['city'] %>">
+                    </a>
+                    <% } %>
+                    <div class="card-body">
+                        <h5 class="card-title"><%= showcase.general[i]["city"] %>, <%= showcase.general[i]["country"] %></h5>
+                        <!-- <%= [i] %> -->
+                        <% if (showcase.general[i]["overall_avg"] > 0) { %>
+                        <div class="rating-summary mb-2">
+                            <strong>Community Rating:</strong>
+                            <span class="star-display">
+                            <% for (var s = 1; s <= 5; s++) { %>
+                                <% if (s <= showcase.general[i]["overall_avg"]) { %>★<% } else { %>☆<% } %>
+                            <% } %>
+                            </span>
+                            <small class="text-muted">(<%= showcase.general[i]["overall_avg"] %>/5)</small>
+                        </div>
+                        <% } else { %>
+                        <div class="rating-summary mb-2">
+                            <small class="text-muted">Not yet rated - be the first!</small>
+                        </div>
+                        <% } %>
+                        
+                        <div class="card-actions mt-3">
+                            <a href="<%= site_base %>/cities/view/<%= showcase.general[i]["id"] %>" class="btn btn-primary btn-sm">
+                                View Details
+                            </a>
+                            <% if (user && user.id && user.role !== "admin") { %>
+                            <a href="<%= site_base %>/favorites/edit/<%= showcase.general[i]["id"] %>" class="btn btn-outline-secondary btn-sm">
+                                My Rating
+                            </a>
+                            <% } else if (!user) { %>
+                            <a href="<%= site_base %>/login" class="btn btn-outline-primary btn-sm">
+                                Login to Rate
+                            </a>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+        </div>
+    </section>
+    <% } %>
+    
+    <!-- Featured Cities Section -->
+    <% if (meta.has_featured && showcase.featured && showcase.featured.length > 0) { %>
+    <section class="city-showcase mb-4">
+        <h2>Top Rated Cities</h2>
+        <div class="row">
+        <% for (var i = 0; i < showcase.featured.length; i++) { %>
+            <div class="col-md-6 col-lg-4 mb-4 mt-2">
+                <div class="card">
+                    <% if (showcase.featured[i]["image_path"]) { %>
+                    <a href="<%= site_base %>/cities/view/<%= showcase.featured[i]["id"] %>">
+                        <img src="<%= city_img_path %>/<%= showcase.featured[i]['image_path'] %>" 
+                             class="card-img-top" alt="<%= showcase.featured[i]['city'] %>">
+                    </a>
+                    <% } %>
+                    <div class="card-body">
+                        <h5 class="card-title"><%= showcase.featured[i]["city"] %>, <%= showcase.featured[i]["country"] %></h5>
+                        
+                        <div class="rating-summary mb-2">
+                            <strong>Community Rating:</strong>
+                            <span class="star-display">
+                            <% for (var s = 1; s <= 5; s++) { %>
+                                <% if (s <= showcase.featured[i]["overall_avg"]) { %>★<% } else { %>☆<% } %>
+                            <% } %>
+                            </span>
+                            <small class="text-muted">(<%= showcase.featured[i]["overall_avg"] %>/5)</small>
+                        </div>
+                        
+                        <div class="card-actions mt-3">
+                            <a href="<%= site_base %>/cities/view/<%= showcase.featured[i]["id"] %>" class="btn btn-primary btn-sm">
+                                View Details
+                            </a>
+                            <% if (user && user.id && user.role !== "admin") { %>
+                            <a href="<%= site_base %>/favorites/edit/<%= showcase.featured[i]["id"] %>" class="btn btn-outline-secondary btn-sm">
+                                My Rating
+                            </a>
+                            <% } else if (!user) { %>
+                            <a href="<%= site_base %>/login" class="btn btn-outline-primary btn-sm">
+                                Login to Rate
+                            </a>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+        </div>
+    </section>
+    <% } %>
+    
+    <!-- Trending Cities Section -->
+    <% if (meta.has_trending && showcase.trending && showcase.trending.length > 0) { %>
+    <section class="city-showcase mb-4">
+        <h2>Recently Active Cities</h2>
+        <div class="row">
+        <% for (var i = 0; i < showcase.trending.length; i++) { %>
+            <div class="col-md-6 col-lg-4 mb-4 mt-2">
+                <div class="card">
+                    <% if (showcase.trending[i]["image_path"]) { %>
+                    <a href="<%= site_base %>/cities/view/<%= showcase.trending[i]["id"] %>">
+                        <img src="<%= city_img_path %>/<%= showcase.trending[i]['image_path'] %>" 
+                             class="card-img-top" alt="<%= showcase.trending[i]['city'] %>">
+                    </a>
+                    <% } %>
+                    <div class="card-body">
+                        <h5 class="card-title"><%= showcase.trending[i]["city"] %>, <%= showcase.trending[i]["country"] %></h5>
+                        
+                        <div class="rating-summary mb-2">
+                            <strong>Community Rating:</strong>
+                            <span class="star-display">
+                            <% for (var s = 1; s <= 5; s++) { %>
+                                <% if (s <= showcase.trending[i]["overall_avg"]) { %>★<% } else { %>☆<% } %>
+                            <% } %>
+                            </span>
+                            <small class="text-muted">(<%= showcase.trending[i]["overall_avg"] %>/5)</small>
+                        </div>
+                        
+                        <div class="card-actions mt-3">
+                            <a href="<%= site_base %>/cities/view/<%= showcase.trending[i]["id"] %>" class="btn btn-primary btn-sm">
+                                View Details
+                            </a>
+                            <% if (user && user.id && user.role !== "admin") { %>
+                            <a href="<%= site_base %>/favorites/edit/<%= showcase.trending[i]["id"] %>" class="btn btn-outline-secondary btn-sm">
+                                My Rating
+                            </a>
+                            <% } else if (!user) { %>
+                            <a href="<%= site_base %>/login" class="btn btn-outline-primary btn-sm">
+                                Login to Rate
+                            </a>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+        </div>
+    </section>
+    <% } %>
+    
+    <!-- Call to Action -->
+    <section class="cta-section text-center mb-4">
+        <div class="card bg-light">
+            <div class="card-body">
+                <h3>Explore More Cities</h3>
+                <p class="lead">Browse the complete collection of cities and share your travel experiences.</p>
+                <a href="<%= site_base %>/cities" class="btn btn-primary btn-lg">View All Cities</a>
+                <% if (!user) { %>
+                <a href="<%= site_base %>/login" class="btn btn-outline-primary btn-lg">Join the Community</a>
+                <% } %>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<footer>
+    <%- include ("../elements/footer") %>
+</footer>
+
+</body>
+</html>

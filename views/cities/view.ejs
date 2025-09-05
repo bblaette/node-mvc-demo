@@ -1,0 +1,145 @@
+<!DOCTYPE html><%# http://www.ejs.co/ %>
+<html lang="en">
+<head>
+    <%- include ("../elements/head") %>
+    <%- include ("../elements/view_variables") %>
+</head>
+<body class="container cities view">
+
+<header>
+    <%- include ("../elements/header") %>
+</header>
+
+<main>
+    <div class="">
+        
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+                <!-- li class="breadcrumb-item"><a href="<%= site_base %>/">Home</a></li -->
+                <li class="breadcrumb-item"><a href="<%= site_base %>/cities">Cities</a></li>
+                <li class="breadcrumb-item active" aria-current="page">Details</li>
+            </ol>
+        </nav>
+
+        <h2><%= title %></h2>
+        <% if (impersonating_user_id) { %>
+        <div class="alert alert-info">
+            <small><strong>Admin View:</strong> Viewing as User ID <%= impersonating_user_id %></small>
+        </div>
+        <% } %>
+        <h3><small class="text-muted">
+            <%= city["city"] %>, <%= city["country"] %>
+        </small></h3> <br />
+        
+        <div class="row">
+            <div class="col-md-8">
+                <% if (city["image_path"]) { %>
+                <div class="city-image mb-4">
+                    <img src="<%= city_img_path %>/<%= city['image_path'] %>" 
+                         alt="<%= city['city'] %>, <%= city['country'] %>" 
+                         class="img-fluid rounded">
+                </div>
+                <% } %>
+                
+                <div class="city-description mb-4">
+                    <h4>About <%= city["city"] %></h4>
+                    <p>
+                        <%= city["info"] %>
+                    </p>
+                    <p>
+                        If you've been to <%= city["city"] %> tell us about it and let us know what makes this place special.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="city-ratings">
+                    <h4>Community Ratings (<%= city["rating_count"] %>)</h4>
+                    <div class="rating-item mb-2">
+                        <span class="star-label">Overall:</span> 
+                        <span class="star-display">
+                        <% for (var s = 1; s <= 5; s++) { %>
+                            <% if (s <= city["overall_avg"]) { %>★<% } else { %>☆<% } %>
+                        <% } %>
+                        </span>
+                        (<%= city["overall_avg"] %>/5)
+                    </div>
+                    
+                    <div class="rating-item mb-2">
+                        <span class="star-label">Scenery:</span> 
+                        <span class="star-display">
+                        <% for (var s = 1; s <= 5; s++) { %>
+                            <% if (s <= city["ave_scenery"]) { %>★<% } else { %>☆<% } %>
+                        <% } %>
+                        </span>
+                        (<%= city["ave_scenery"] %>/5)
+                    </div>
+                    
+                    <div class="rating-item mb-2">
+                        <span class="star-label">Food:</span> 
+                        <span class="star-display">
+                        <% for (var s = 1; s <= 5; s++) { %>
+                            <% if (s <= city["ave_food"]) { %>★<% } else { %>☆<% } %>
+                        <% } %>
+                        </span>
+                        (<%= city["ave_food"] %>/5)
+                    </div>
+                    
+                    <div class="rating-item mb-2">
+                        <span class="star-label">Culture:</span> 
+                        <span class="star-display">
+                        <% for (var s = 1; s <= 5; s++) { %>
+                            <% if (s <= city["ave_culture"]) { %>★<% } else { %>☆<% } %>
+                        <% } %>
+                        </span>
+                        (<%= city["ave_culture"] %>/5)
+                    </div>
+                    
+                    <div class="rating-item mb-2">
+                        <span class="star-label">Walkability:</span> 
+                        <span class="star-display">
+                        <% for (var s = 1; s <= 5; s++) { %>
+                            <% if (s <= city["ave_walkable"]) { %>★<% } else { %>☆<% } %>
+                        <% } %>
+                        </span>
+                        (<%= city["ave_walkable"] %>/5)
+                    </div>
+                    
+                    <div class="rating-item mb-2">
+                        <span class="star-label">Vibe:</span> 
+                        <span class="star-display">
+                        <% for (var s = 1; s <= 5; s++) { %>
+                            <% if (s <= city["ave_vibe"]) { %>★<% } else { %>☆<% } %>
+                        <% } %>
+                        </span>
+                        (<%= city["ave_vibe"] %>/5)
+                    </div>
+                </div>
+                
+                <div class="city-actions mt-4">
+                    <% if (user && user.role !== "admin") { %>
+                    <a href="<%= site_base %>/favorites/view/<%= city['id'] %>" class="btn btn-success btn-sm">
+                        My Rating
+                    </a>
+                    <% } else if (user && user.role === "admin" && impersonating_user_id) { %>
+                    <a href="<%= site_base %>/favorites/view/<%= city['id'] %>?user_id=<%= impersonating_user_id %>" class="btn btn-success btn-sm">
+                        User's Rating
+                    </a>
+                    <% } else if (!user) { %>
+                    <a href="<%= site_base %>/login" class="btn btn-outline-primary btn-sm">
+                        Login to Rate This City
+                    </a>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+        
+    </div> <br />
+</main>
+
+<footer>
+    <%- include ("../elements/footer") %>
+</footer>
+
+</body>
+</html>
