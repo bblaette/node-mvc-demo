@@ -14,7 +14,6 @@
         
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <!-- li class="breadcrumb-item"><a href="<%= site_base %>/">Home</a></li -->
                 <li class="breadcrumb-item active" aria-current="page"><% if (impersonating_user_id) { %>User's Favorites<% } else { %>Favorites<% } %></li>
             </ol>
         </nav>
@@ -64,7 +63,7 @@
                                         <% if (s <= favorites[i]["stars_scenery"]) { %>★<% } else { %>☆<% } %>
                                     <% } %>
                                     </span>
-                                    <!-- (<%= favorites[i]["stars_scenery"] %>) --><br>
+                                    <br>
                                     <% } %>
                                     
                                     <% if (favorites[i]["stars_food"]) { %>
@@ -74,7 +73,7 @@
                                         <% if (s <= favorites[i]["stars_food"]) { %>★<% } else { %>☆<% } %>
                                     <% } %>
                                     </span>
-                                    <!-- (<%= favorites[i]["stars_food"] %>) --><br>
+                                    <br>
                                     <% } %>
                                     
                                     <% if (favorites[i]["stars_culture"]) { %>
@@ -84,7 +83,7 @@
                                         <% if (s <= favorites[i]["stars_culture"]) { %>★<% } else { %>☆<% } %>
                                     <% } %>
                                     </span>
-                                    <!-- (<%= favorites[i]["stars_culture"] %>) --><br>
+                                    <br>
                                     <% } %>
                                     
                                     <% if (favorites[i]["stars_walkable"]) { %>
@@ -94,7 +93,7 @@
                                         <% if (s <= favorites[i]["stars_walkable"]) { %>★<% } else { %>☆<% } %>
                                     <% } %>
                                     </span>
-                                    <!-- (<%= favorites[i]["stars_walkable"] %>) --><br>
+                                    <br>
                                     <% } %>
                                     
                                     <% if (favorites[i]["stars_vibe"]) { %>
@@ -104,7 +103,6 @@
                                         <% if (s <= favorites[i]["stars_vibe"]) { %>★<% } else { %>☆<% } %>
                                     <% } %>
                                     </span>
-                                    <!-- (<%= favorites[i]["stars_vibe"] %>) -->
                                     <% } %>
                                 </small>
                             </div>
@@ -201,7 +199,6 @@
                                 <%= meta.actions[a].label %>
                             </a><% _%>
                             <% } %>
-                            <!-- <% if (a < meta.actions.length - 1) { %>, <% } %> -->
                         <% } %>
                         </td>
                     </tr>

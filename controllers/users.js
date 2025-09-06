@@ -67,7 +67,7 @@ function login_post(req, res, next) { // form submit
             message: "Login failed, sorry",
             message_type: "error"
         };
-        return callback("error", null, meta); // index(req, res, next);
+        return callback("error", null, meta);
     }
     
     return records.login_post(req, callback);

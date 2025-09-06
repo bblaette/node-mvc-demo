@@ -51,12 +51,12 @@ class DB {
     end() { // work off query backlog and end connection pool
         if (this.poolNotAvailable()) { return null; }
         
-        /** log.debug("query_count: "+ this.query_count +
+        /*  log.debug("query_count: "+ this.query_count +
             ", end_count: "+ this.end_count +
-            ", ticking: "+ (this.end_timer === null ? 'no' : 'yes')); **/
+            ", ticking: "+ (this.end_timer === null ? 'no' : 'yes')); */
         
         if (this.query_count == 0) {
-            /** log.debug("OK, queries all done"); **/
+            /* log.debug("OK, queries all done"); */
             if (this.end_timer !== null) { clearTimeout(this.end_timer); }
             
             this.connect_pool.end();
@@ -78,7 +78,7 @@ class DB {
             }, 200);
             
         } else { // exceeded number of "retry attempts"
-            /** log.debug("STOP, exceeded number of attempts"); **/
+            /* log.debug("STOP, exceeded number of attempts"); */
             if (this.end_timer !== null) { clearTimeout(this.end_timer); }
             
             this.connect_pool.end();
@@ -138,7 +138,6 @@ class DB {
             // pool.end();
         });
     }
-    
     
     auto(milli_sec) { // put DB in auto mode to close pool after timeout
         this.autoInitEnd(milli_sec); 

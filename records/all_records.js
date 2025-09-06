@@ -122,11 +122,6 @@ function indexPagination(req, results, page_link) {
  * 
  * Only columns with a filter parameter will get filter_links
  * Other parameters in the query string are preserved
- * 
- * { "sort": "id-up.ck-dn",
- *   "filter": "rco-in(ar01-18)(po02-18)~~id-ge(27)~~rid-eq(R5o30)~~
-                id-bt(10)(19)~~ttl-bt(an)(lo)~~fil-xt(txt)(pdf)~~
-                ttl-lk(New+things*)"  }  // req.query
  */
 var filterDelim = "~~";
 var filterCodes = [
@@ -194,21 +189,20 @@ function columnFilterLinks(req, columns, total, query_records, base_path, callba
             // callbk(null, column);
         },
         function(status, columns_done) {
-            // log.debug("columns_done");
-            // log.debug(columns_done);
+            // log.debug("columns_done"); log.debug(columns_done);
             // log.debug(status);
             callback("success", columns_done);
         }
     );
 
-    /***                 
+    /*                 
         // let qu_quest = qu_sort_str.length > 0 || query_tail.length > 0 ? "?" : "";
         // let qu_amp = qu_sort_str.length > 0 && query_tail.length > 0 ? "&" : ""; 
         // columns[i].sort_link = url_path + qu_quest + qu_sort_str + qu_amp + query_tail;
         // columns[i].sort_flag = sort.flag;
         columns[i].filter_values = query_run; // function for filters
     }
-    ***/
+    */
     
     // log.debug(columns); // log.debug(query_tail);
     // callback("success", columns);
@@ -224,7 +218,6 @@ function columnFilterProcessed(results, type, total) { // log.debug("columnFilte
     
     let step_add = 0; // for step boundary, if any
     let step_digits = 0; // step precision, if any
-    // let processed = {}; // processed results
     let processed = []; // processed results
     
     for (let r = 0; r < results.length; r++) {
@@ -454,16 +447,6 @@ function columnFilterDetails(column, query_filter, lookup) {
  * Only columns with a sort parameter will get a sort_link
  * Other parameters in the query string are preserved
  * Sorting toggles through 3 states: default -> opposite -> no sorting
- * 
- * { "sort": "id-up.ck-dn",
- *   "filter": "rco-like-abc def|cka-ge-3.5" }  // req.query
- *
- * [ "id-up", "ck-dn" ]  // query_sort
- *
- * { "key": "r_code", "label": "Respondent", "sort": "asc", "sort_num": 1, 
- *   "sort_link": "/favorites?sort=rco-dn" },
- * { "key": "end_date", "label": "Date", "sort": "desc", "sort_num": 2,
- *   "sort_link": "/favorites?sort=end-up" }  // columns with sort_links
  */
 var sortDelim = "~~";
 
@@ -707,4 +690,3 @@ function urlParts(req) {
         query: query
     }
 }
-

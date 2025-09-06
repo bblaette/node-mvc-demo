@@ -6,12 +6,6 @@ module.exports = {
     index_page_params: index_page_params, // parameters for pagination
     
     param_check: param_check,
-    
-    /* httpDomain: httpDomain,
-    
-    httpBase: httpBase,
-
-    siteBase: siteBase */
 }
 
 
@@ -73,5 +67,3 @@ function param_check(params, name, type_check) {
     
     return ok_so_far;
 }
-
-

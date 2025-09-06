@@ -15,9 +15,6 @@ module.exports = {
 let tableName = "users";
 let bcryptRounds = 12;
 
-// let cipherKey = "Q2aPfWp1S1BhRLawS4jMYIjTAqAXRMhI";
-// let salt = "bCrsZG7s15uf5dbC";
-
 
 /*
  * Access index data
@@ -82,7 +79,7 @@ function login_post_validation(req, call_complete) {
     
     q.run(query, [email], function(stat, res) { // log.debug(stat); log.debug(res[0]); 
         let check_ok = stat == "success" && res.length > 0; // found login entry
-        if (!check_ok) { // do nothing, this r_code has an access link
+        if (!check_ok) { // do nothing, this has an access link
             fields.push('form');
             issues.push("Login failed, sorry"); // user is unknown
             call_complete("error", { fields: fields, issues: issues, related: related });
@@ -97,7 +94,7 @@ function login_post_validation(req, call_complete) {
                 return false;
             }
             // log.debug(match_ok);
-            if (!match_ok) { // do nothing, this r_code has an access link
+            if (!match_ok) { // do nothing, this has an access link
                 fields.push('form');
                 issues.push("Login failed, sorry"); // password is wrong
                 call_complete("error", { fields: fields, issues: issues, related: related });

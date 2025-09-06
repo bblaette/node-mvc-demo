@@ -43,5 +43,3 @@ function index(req, res, next) {
     
     records.showcase(req, callback);
 }
-
-

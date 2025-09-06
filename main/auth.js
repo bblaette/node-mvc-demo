@@ -4,9 +4,7 @@ let crypto = require('crypto');
 let bcrypt = require("bcryptjs");
 let log = require('../main/logging.js');
 
-module.exports = {    
-    // init: init,
-    
+module.exports = {
     check: check,
     
     login: login,
@@ -25,11 +23,6 @@ module.exports = {
     
     elapsed: elapsed
 }
-
-/*
- * Global parameters
- */
-
 
 /*
  * Check session exists and if user is allowed to access the page
@@ -71,9 +64,7 @@ function deny(req, res, message) { // log.debug("auth.deny()");
         },
         user: user(req)
     }
-    // if (redirect) {
-    //     res.redirect('/auth/access_denied', variables);
-    // }
+
     res.render('auth/access_denied', variables, log.whiteout, res);
 }
 
@@ -179,7 +170,7 @@ function meta_flush(req, data) {
         m = Object.assign(meta_obj, data);
         
     } else if (typeof data == "object" && !have_meta) {
-        m = data; // Object.assign({}, data);
+        m = data;
         
     } else if (have_meta) {
         m = meta_obj;
@@ -196,7 +187,7 @@ function meta_flush(req, data) {
             delete req.meta; 
         }
     }
-    // log.debug(req.session); log.debug("...");
+    // log.debug(req.session);
     
     return m;
 }
@@ -220,14 +211,3 @@ function elapsed(req) {
     meta(req, { call_time: this_time });
     return elapsed;
 }
-
-
-/*
- * Initialization
- *
-function init(params) {
-    routes();
-}
-*/
-
-

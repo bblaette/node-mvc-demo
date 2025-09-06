@@ -44,7 +44,7 @@ var options = {
     to: "",
     subject: "Test",
     text: "Hi, this is an email test...",
-    /* html works! check example below:
+    /* html also works! example below:
     html: '<b>Hello!</b><br /> This is an email test<br /><img src="cid:001-logo.png" alt="node-mvc-logo" />',
     attachments: [{
         cid: '001-logo.png', // skip if not embedded in html
@@ -73,7 +73,7 @@ function init(transport_conf, from_addr) {
     return true;
 }
 
-/***
+/*
 function attachments(one_or_more_attachments) {
     let opt_copy = JSON.parse(JSON.stringify(options)); // copy default
     let attach_arr = Array.isArray(one_or_more_attachments) ? 
@@ -86,7 +86,7 @@ function attachments(one_or_more_attachments) {
     }
     return opt_copy; // use opt_copy to call send(opts)
 }
-***/
+*/
 
 /*
  * Main send function

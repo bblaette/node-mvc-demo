@@ -1,9 +1,5 @@
 
-<nav class="navbar navbar-expand-md">
-    <!-- a class="navbar-brand" href="<%= site_base %>/">
-        <span class="site-name">City Ratings</span>
-    </a -->
-    
+<nav class="navbar navbar-expand-md">    
     <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -27,11 +23,11 @@
                 </a>
             </li>
         <% } %>
-            <li class="nav-item">
+            <!-- li class="nav-item">
                 <a class="nav-link" href="<%= site_base %>/about">
                     About
                 </a>
-            </li>
+            </li -->
         <% if (typeof user == "object" && user != null /* && user.role == "admin" */) { %>
             <li class="nav-item">
                 <a class="nav-link" href="<%= site_base %>/logout">

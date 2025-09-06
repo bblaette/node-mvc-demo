@@ -3,7 +3,6 @@ let db = require('../main/database.js');
 let log = require('../main/logging.js');
 
 module.exports = {
-    // init: init, 
     run: run
 };
 

@@ -14,7 +14,6 @@
         
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <!-- li class="breadcrumb-item"><a href="<%= site_base %>/">Home</a></li -->
                 <li class="breadcrumb-item active" aria-current="page">Cities</li>
             </ol>
         </nav>
@@ -68,7 +67,6 @@
                                 View Details
                             </a>
                             <% if (user && user.id && (user.role !== "admin" || impersonating_user_id)) { %>
-                            <!-- a href="<%= site_base %>/favorites/edit/<%= cities[i]["id"] %><% if (impersonating_user_id) { %>?user_id=<%= impersonating_user_id %><% } %>" class="btn btn-outline-secondary btn-sm" -->
                             <a href="<%= site_base %>/favorites/view/<%= cities[i]["id"] %><% if (impersonating_user_id) { %>?user_id=<%= impersonating_user_id %><% } %>" class="btn btn-outline-secondary btn-sm">
                                 My Rating
                             </a>

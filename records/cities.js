@@ -319,4 +319,3 @@ function format_record(item, keys) { // round figures, format dates
     
     return processed_record;
 }
-

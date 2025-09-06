@@ -1,21 +1,18 @@
 
     <% 
-       var filters = [];
-       for (var c = 0; c < meta.columns.length; c++) { 
-           var filter_values = meta.columns[c].hasOwnProperty("filter_values") ? 
-               meta.columns[c].filter_values : false;
-           var tf = filter_values === false ? "false " : JSON.stringify(filter_values); 
+        var filters = [];
+        for (var c = 0; c < meta.columns.length; c++) { 
+            var filter_values = meta.columns[c].hasOwnProperty("filter_values") ? 
+                meta.columns[c].filter_values : false;
+            var tf = filter_values === false ? "false " : JSON.stringify(filter_values); 
            
-           var is_filter = filter_values != false && filter_values.length > 0;
-           filters.push({
-               tag:    !is_filter ? "" : tf,
-               values: filter_values
-           });
+            var is_filter = filter_values != false && filter_values.length > 0;
+            filters.push({
+                tag:    !is_filter ? "" : tf,
+                values: filter_values
+            });
+        } 
     %>
-               <!-- code>
-               <%- tf %>
-               </code -->
-    <% } %>
 
 <thead>
     <tr>

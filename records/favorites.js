@@ -227,17 +227,14 @@ function index_meta(req, status, results, meta_pagination, query_records, callba
     // add column sorting, filters and actions as meta data
     let cols = all.columnSortLinks(req, structure.columns, "/favorites"); // columns = columns.slice(0, 16);
     
-    // column filters need a callback due to them querying the database
-    /// all.columnFilterLinks(req, cols, grand_total, query_records, "/favorites", function(status, columns) {
-    {
-        let meta = {
-            total: total, // will be overwritten by meta_pagination.total
-            columns: cols, /// columns,
-            actions: actions
-        }
-        return callback(status, meta);
-    }
-    /// });
+    // column filters
+    let meta = {
+        total: total, // will be overwritten by meta_pagination.total
+        columns: cols, /// columns,
+        actions: actions
+    };
+
+    return callback(status, meta);
 }
 
 
@@ -311,7 +308,7 @@ function index_page_meta(req, status, results, meta_pagination, query_records, c
             log.error("No success after calling index_meta()");
             return callback("error", meta); 
         }
-        // if (meta == null) { return null; }
+        
         let meta_combined = Object.assign(meta, meta_pagination); // merge in pagination
         callback(status, meta); 
     });

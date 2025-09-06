@@ -4,7 +4,7 @@ let moment = require('moment');
 let fs = require('fs');
 var colors = require('colors/safe');
 
-var log_level = config.get("log_level"); // 'info'; // GLOBAL LOG LEVEL, e.g. 'debug' down to info
+var log_level = config.get("log_level"); // e.g. 'debug' down to info
 var log_compact = false;
 
 module.exports = {

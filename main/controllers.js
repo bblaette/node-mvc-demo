@@ -1,6 +1,4 @@
 
-// let site_dirs = require("./site_dirs.js");
-
 var controllers = [
     "home",
     "cities",

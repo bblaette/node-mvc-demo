@@ -37,8 +37,6 @@ function auth_check(req, res, next) {
 }
 
 
-
-
 /*
  * Index action - consolidated view for all users
  * - Regular users: see their favorites in card format

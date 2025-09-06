@@ -14,8 +14,6 @@
         
         <nav aria-label="breadcrumb">
             <ol class="breadcrumb">
-                <!-- li class="breadcrumb-item"><a href="<%= site_base %>/">Home</a></li --!>
-                <!-- li class="breadcrumb-item"><a href="<%= site_base %><%= meta.link_back %>">Back</a></li -->
                 <li class="breadcrumb-item"><a href="<%= site_base %>/favorites<% if (impersonating_user_id) { %>?user_id=<%= impersonating_user_id %><% } %>"><% if (impersonating_user_id) { %>User's Favorites<% } else { %>Favorites<% } %></a></li>
                 <li class="breadcrumb-item active" aria-current="page">Rate City</li>
             </ol>
@@ -82,7 +80,6 @@
                 
                 <div class="col-md-4 star-rating-col">
                     <label class="form-label"><strong>Your Rating *</strong></label>
-                    <!-- <p><small class="text-muted">All ratings are required (1-5 stars)</small></p> -->
                     
                     <!-- Star Ratings -->
                     <% 

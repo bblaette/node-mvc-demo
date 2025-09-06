@@ -3,7 +3,6 @@ var express = require('express');
 var router = express.Router();
 var auth = require('./auth.js');
 var path = require('path');
-// var session = require('express-session');
 var controllers = require('./controllers.js');
 let log = require('../main/logging.js');
 

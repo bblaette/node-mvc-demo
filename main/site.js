@@ -145,7 +145,7 @@ function init(params) {
  */
 function routes() {
     app.disable('x-powered-by');
-    app.use(demo_reset_middleware); // Check for daily demo reset
+    app.use(demo_reset_middleware); // Daily demo reset with random content
     app.use(router);
 }
 

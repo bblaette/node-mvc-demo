@@ -75,7 +75,7 @@ module.exports = Object.assign({}, s, {
 
 
 /*
- * options: { fields: [], }
+ * Convenience query functions
  */
 function querySelectAll(table_name) {
     return s.select.all + s.from + prefix(table_name); 
@@ -105,23 +105,22 @@ function querySelectRecords(table_name, field, value_or_values) {
     let query_all = querySelectAll(table_name);
     let condition = queryConditionIsIn(field, value_or_values);
     let more_cond = "";
-    // if (arguments.length > 3) {
-        for (let i = 3; i < arguments.length; i++) {
-            let param = arguments[i].trim().toLowerCase();
-            if (["and", "or"].indexOf(param) > -1) {
-                more_cond += s[param];
-                i++;
-                param = arguments[i].trim().toLowerCase();
-                
-            } else {
-                more_cond += s.and;
-            }
+
+    for (let i = 3; i < arguments.length; i++) {
+        let param = arguments[i].trim().toLowerCase();
+        if (["and", "or"].indexOf(param) > -1) {
+            more_cond += s[param];
             i++;
-            if (i >= arguments.length) { break; }
-            let val = arguments[i].trim().toLowerCase();
-            more_cond += queryConditionIsIn(param, val);
+            param = arguments[i].trim().toLowerCase();
+            
+        } else {
+            more_cond += s.and;
         }
-    // }
+        i++;
+        if (i >= arguments.length) { break; }
+        let val = arguments[i].trim().toLowerCase();
+        more_cond += queryConditionIsIn(param, val);
+    }
     return query_all + s.where + condition + more_cond;
 }
 
@@ -164,5 +163,3 @@ function brackets(term) {
 function prefix(table_name) {
     return db.tablePrefix + table_name;
 }
-
-
