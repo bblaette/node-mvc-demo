@@ -11,12 +11,13 @@ Demo site with a lightweight MVC architecture using Node.js, Express.js and EJS 
 ## Features
 
 - **MVC Architecture**: Clean separation of concerns with dedicated Model, View, and Controller layers
-- **Dynamic Routing**: Express-based routing with parameterized URLs and middleware
+- **User Authentication**: Login system with session management
+- **Role-Based Access**: Admin vs. user permissions and individual functionality
+- **Dynamic Routing**: Express-based routing with parameterized URLs
 - **Template Engine**: Server-side rendering with EJS templates and reusable components
-- **City Rating System**: Browse and rate cities from around the world
-- **User Authentication**: Secure login system with session management
-- **Favorites Management**: Save and manage your favorite cities
 - **Responsive Design**: Bootstrap-powered responsive interface
+- **City Rating System**: Browse and rate cities from around the world
+- **Favorites Management**: Save and manage your favorite cities
 
 ## Getting Started
 
@@ -36,4 +37,4 @@ The application uses environment variables for configuration. Key settings inclu
 
 ## Image Credits
 
-City images courtesy of [Pixabay](https://pixabay.com) - free for commercial use, no attribution required.
+City images courtesy of [Pixabay](https://pixabay.com) (free for commercial use, no attribution required).
